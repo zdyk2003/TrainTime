@@ -18,7 +18,7 @@
 
 	var trainName = $("#trainName-input").val();
 	var destination = $("#destination-input").val().trim();
-	var firstTrain = $("#firstTrain-input").val().trim();
+	var firstTrain = moment($("#firstTrain-input").val().trim(), "HH:mm").subtract(10, "years").format("X");
 	var frequency = $("#frequency-input").val().trim();
 	
 
@@ -48,7 +48,6 @@ database.ref().on("child_added", function(snapshot) {
 	var trDestination = snapshot.val().destination;
 	var trFirst = snapshot.val().firstTrain;
 	var trFrequency = snapshot.val().frequency;
-	console.log("Frequency " + trFrequency);
 //** I can not get these 2 variables to show up in firebase?
 	// var minutesAway = snapshot.val().minutesAway;
 	// var nextArrival = snapshot.val().nextArrival;
@@ -59,10 +58,12 @@ database.ref().on("child_added", function(snapshot) {
 	var currentTime = moment();
 	console.log("The time is: " + moment().format("HH:mm A"));
 	//minutes away
-	var minutesAway = moment().diff(trFirst, "HH:mm A") % trFrequency;
-	console.log("minutesAway " + minutesAway);
+	var remainder = moment().diff(moment.unix(trFirst), "minutes") % trFrequency;
+	console.log("remainder is " + remainder);
+	var minutesAway = trFrequency - remainder;
+	console.log("minutes away " + minutesAway);
 	// next arrival time
-	var nextArrival = moment().add(minutesAway, "minutes").format("HH:mm A");
+	var nextArrival = moment().add(minutesAway, "m").format("hh:mm A");
 	console.log("Next train " + nextArrival);
 
 	//fill in the table
