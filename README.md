@@ -6,4 +6,4 @@ Built using HTML, Bootstrap, CSS, Javascript and firebase.
 
 Click here to play https://zdyk2003.github.io/TrainTime/
 
-![Alt text](/assets/images/trainTime.PNG?raw=true "Optional Title")
+![Alt text](/assets/images/trainImage.PNG?raw=true "train time")
